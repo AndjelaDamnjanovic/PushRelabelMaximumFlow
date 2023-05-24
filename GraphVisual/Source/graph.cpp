@@ -233,9 +233,7 @@ bool Graph::addEdge(Node *u, Node *v, int w) {
         return false;
     }
 
-
-    auto *e = new Edge(std::make_pair(u,v), w);
-    m_edges.append(e);
+    m_edges.append(new Edge(std::make_pair(u,v), w));
 
     if (m_directed) {
         u->incOutDeg();
@@ -270,6 +268,7 @@ bool Graph::removeEdge(Node *u, Node *v) {
                     v->removeNeighbour(u);
                 }
                 m_edges.erase(it);
+                delete *it;
                 return true;
             }
         }else{
@@ -284,6 +283,7 @@ bool Graph::removeEdge(Node *u, Node *v) {
                 }
 
                 m_edges.erase(it);
+                delete *it;
                 return true;
             }
         }

@@ -172,6 +172,9 @@ void GraphicEdge::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 
         delete edgeCenter;
         delete controlPoint;
+
+        delete newLine;
+        delete ghostLine;
     }else{
         painter->drawLine(m_start->CenterPosition(), m_end->CenterPosition());
         m_weightLineEdit->move(getCenter().x(), getCenter().y());
