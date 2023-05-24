@@ -4,12 +4,12 @@
 #include <QTextEdit>
 
 class MyTextEdit : public QTextEdit {
-    Q_OBJECT
-public:
-    MyTextEdit(QWidget *parent = 0) : QTextEdit(parent) {}
+  Q_OBJECT
+ public:
+  MyTextEdit(QWidget* parent = 0) : QTextEdit(parent) {}
 
-protected:
-    void keyPressEvent(QKeyEvent *e) override;
+ protected:
+  void keyPressEvent(QKeyEvent* e) override;
 };
 
-#endif // MYTEXTEDIT_H
+#endif  // MYTEXTEDIT_H
