@@ -10,7 +10,7 @@ TEST_CASE("Edge", "[edge]")
         Node *n2 = new Node("n2");
         int weight = 5;
 
-        Edge *e = new Edge(std::pair(n1, n2), weight);
+        Edge *e = new Edge(std::make_pair(n1, n2), weight);
 
         REQUIRE(e->first() == n1);
     }
@@ -20,7 +20,7 @@ TEST_CASE("Edge", "[edge]")
         Node *n2 = new Node("n2");
         int weight = 5;
 
-        Edge *e = new Edge(std::pair(n1, n2), weight);
+        Edge *e = new Edge(std::make_pair(n1, n2), weight);
 
         REQUIRE(e->second() == n2);
     }
@@ -30,7 +30,7 @@ TEST_CASE("Edge", "[edge]")
         Node *n2 = new Node("n2");
         int weight = 5;
 
-        Edge *e = new Edge(std::pair(n1, n2), weight);
+        Edge *e = new Edge(std::make_pair(n1, n2), weight);
 
         REQUIRE(e->weight() == weight);
     }
@@ -39,7 +39,7 @@ TEST_CASE("Edge", "[edge]")
         Node *n1 = new Node("n1");
         Node *n2 = new Node("n2");
         int weight = 5;
-        Edge *e = new Edge(std::pair(n1, n2), weight);
+        Edge *e = new Edge(std::make_pair(n1, n2), weight);
         int newWeight = 10;
 
         e->setWeight(newWeight);
