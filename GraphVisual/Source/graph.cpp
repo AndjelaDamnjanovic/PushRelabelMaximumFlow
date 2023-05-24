@@ -8,7 +8,7 @@ Graph::Graph(bool directed, bool weighted): m_weightRange(calcWeightRange(weight
 
 Graph::Graph(Graph &other) {
     for(const auto node : other.nodeSet()) {
-        Node *n = new Node(node);
+        auto *n = new Node(node);
         m_nodes.append(n);
     }
 
@@ -31,7 +31,7 @@ Graph::Graph(Graph &other) {
 
         std::pair<Node*, Node*> newEdge(newNode1, newNode2);
 
-        Edge *e = new Edge(newEdge, edge->m_weight);
+        auto *e = new Edge(newEdge, edge->m_weight);
         m_edges.append(e);
     }
 
@@ -234,7 +234,7 @@ bool Graph::addEdge(Node *u, Node *v, int w) {
     }
 
 
-    Edge *e = new Edge(std::make_pair(u,v), w);
+    auto *e = new Edge(std::make_pair(u,v), w);
     m_edges.append(e);
 
     if (m_directed) {

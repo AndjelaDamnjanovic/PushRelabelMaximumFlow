@@ -2,7 +2,7 @@
 #include <utility>
 #include <QPointF>
 #include <cmath>
-#include "math.h"
+#include <cmath>
 
 Node::Node(){
     this->m_inDeg=0;

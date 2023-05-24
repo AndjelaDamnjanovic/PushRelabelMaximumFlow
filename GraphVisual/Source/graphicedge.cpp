@@ -5,7 +5,7 @@
 #include <QPainter>
 #include <QtMath>
 #include <QPainterPath>
-#include <math.h>
+#include <cmath>
 
 GraphicEdge::GraphicEdge(GraphicNode* start, GraphicNode* end, int weight, bool dir)
     :QGraphicsLineItem(),
@@ -112,7 +112,7 @@ void GraphicEdge::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 
     //draw arc
     if(directed){
-        QPointF *edgeCenter = new QPointF((m_start->x()+m_end->x())/2, (m_start->y()+m_end->y())/2);
+        auto *edgeCenter = new QPointF((m_start->x()+m_end->x())/2, (m_start->y()+m_end->y())/2);
 
 
         qreal dX = m_end->CenterPosition().x() - m_start->CenterPosition().x();
@@ -128,7 +128,7 @@ void GraphicEdge::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 
         qreal cX = 90 * (-1 * (dY / distance)) + mX;
         qreal cY = 90 * (dX / distance) + mY;
-        QPointF *controlPoint = new QPointF(cX, cY);
+        auto *controlPoint = new QPointF(cX, cY);
 
         QLineF *ghostLine = new QLineF(*controlPoint, m_end->CenterPosition());
         ghostLine->setLength(ghostLine->length() - GraphicNode::m_width/2);

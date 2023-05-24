@@ -1,12 +1,14 @@
+#include <utility>
+
 #include "Headers/edge.h"
 #include "Headers/node.h"
 
-Edge::Edge(std::pair<Node*, Node*> nodePair, int weight):m_weight(weight), m_nodePair(nodePair){}
+Edge::Edge(std::pair<Node*, Node*> nodePair, int weight):m_weight(weight), m_nodePair(std::move(nodePair)){}
 
 Edge::Edge(const Edge *other) {
     m_weight = other->m_weight;
-    Node *n1 = new Node(other->m_nodePair.first);
-    Node *n2 = new Node(other->m_nodePair.second);
+    auto *n1 = new Node(other->m_nodePair.first);
+    auto *n2 = new Node(other->m_nodePair.second);
     m_nodePair = std::pair<Node*, Node*>(n1, n2);
 }
 
