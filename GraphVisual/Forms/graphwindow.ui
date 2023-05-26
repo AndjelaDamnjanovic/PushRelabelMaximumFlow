@@ -468,7 +468,7 @@
    <string>Graph Visual</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../Resources.qrc">
+   <iconset>
     <normaloff>:/new/rec/Resources/logo.ico</normaloff>:/new/rec/Resources/logo.ico</iconset>
   </property>
   <property name="styleSheet">
@@ -716,15 +716,6 @@ background-color:  #171717;</string>
                </color>
               </brush>
              </colorrole>
-             <colorrole role="PlaceholderText">
-              <brush brushstyle="SolidPattern">
-               <color alpha="128">
-                <red>211</red>
-                <green>215</green>
-                <blue>207</blue>
-               </color>
-              </brush>
-             </colorrole>
             </active>
             <inactive>
              <colorrole role="WindowText">
@@ -781,15 +772,6 @@ background-color:  #171717;</string>
                </color>
               </brush>
              </colorrole>
-             <colorrole role="PlaceholderText">
-              <brush brushstyle="SolidPattern">
-               <color alpha="128">
-                <red>211</red>
-                <green>215</green>
-                <blue>207</blue>
-               </color>
-              </brush>
-             </colorrole>
             </inactive>
             <disabled>
              <colorrole role="WindowText">
@@ -843,15 +825,6 @@ background-color:  #171717;</string>
                 <red>45</red>
                 <green>74</green>
                 <blue>90</blue>
-               </color>
-              </brush>
-             </colorrole>
-             <colorrole role="PlaceholderText">
-              <brush brushstyle="SolidPattern">
-               <color alpha="128">
-                <red>211</red>
-                <green>215</green>
-                <blue>207</blue>
                </color>
               </brush>
              </colorrole>
@@ -951,15 +924,6 @@ border-color:rgb(10, 10, 10); border-style: solid; border-width: 2px</string>
                </color>
               </brush>
              </colorrole>
-             <colorrole role="PlaceholderText">
-              <brush brushstyle="SolidPattern">
-               <color alpha="128">
-                <red>245</red>
-                <green>243</green>
-                <blue>242</blue>
-               </color>
-              </brush>
-             </colorrole>
             </active>
             <inactive>
              <colorrole role="WindowText">
@@ -1016,15 +980,6 @@ border-color:rgb(10, 10, 10); border-style: solid; border-width: 2px</string>
                </color>
               </brush>
              </colorrole>
-             <colorrole role="PlaceholderText">
-              <brush brushstyle="SolidPattern">
-               <color alpha="128">
-                <red>245</red>
-                <green>243</green>
-                <blue>242</blue>
-               </color>
-              </brush>
-             </colorrole>
             </inactive>
             <disabled>
              <colorrole role="WindowText">
@@ -1078,15 +1033,6 @@ border-color:rgb(10, 10, 10); border-style: solid; border-width: 2px</string>
                 <red>40</red>
                 <green>124</green>
                 <blue>170</blue>
-               </color>
-              </brush>
-             </colorrole>
-             <colorrole role="PlaceholderText">
-              <brush brushstyle="SolidPattern">
-               <color alpha="128">
-                <red>245</red>
-                <green>243</green>
-                <blue>242</blue>
                </color>
               </brush>
              </colorrole>
@@ -1666,15 +1612,6 @@ color: rgb(211, 215, 207);</string>
                </color>
               </brush>
              </colorrole>
-             <colorrole role="PlaceholderText">
-              <brush brushstyle="SolidPattern">
-               <color alpha="128">
-                <red>232</red>
-                <green>228</green>
-                <blue>214</blue>
-               </color>
-              </brush>
-             </colorrole>
             </active>
             <inactive>
              <colorrole role="WindowText">
@@ -1728,15 +1665,6 @@ color: rgb(211, 215, 207);</string>
                 <red>23</red>
                 <green>23</green>
                 <blue>23</blue>
-               </color>
-              </brush>
-             </colorrole>
-             <colorrole role="PlaceholderText">
-              <brush brushstyle="SolidPattern">
-               <color alpha="128">
-                <red>232</red>
-                <green>228</green>
-                <blue>214</blue>
                </color>
               </brush>
              </colorrole>
@@ -1796,15 +1724,6 @@ color: rgb(211, 215, 207);</string>
                </color>
               </brush>
              </colorrole>
-             <colorrole role="PlaceholderText">
-              <brush brushstyle="SolidPattern">
-               <color alpha="128">
-                <red>232</red>
-                <green>228</green>
-                <blue>214</blue>
-               </color>
-              </brush>
-             </colorrole>
             </disabled>
            </palette>
           </property>
@@ -1821,7 +1740,7 @@ color: rgb(211, 215, 207);</string>
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab_Config">
            <property name="styleSheet">
@@ -1849,6 +1768,7 @@ color: rgb(232, 228, 214);</string>
                   <font>
                    <family>Ubuntu</family>
                    <pointsize>11</pointsize>
+                   <weight>50</weight>
                    <italic>false</italic>
                    <bold>false</bold>
                   </font>
@@ -1929,15 +1849,6 @@ color: rgb(232, 228, 214);</string>
                       </color>
                      </brush>
                     </colorrole>
-                    <colorrole role="PlaceholderText">
-                     <brush brushstyle="SolidPattern">
-                      <color alpha="128">
-                       <red>232</red>
-                       <green>228</green>
-                       <blue>214</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
                    </active>
                    <inactive>
                     <colorrole role="WindowText">
@@ -1994,15 +1905,6 @@ color: rgb(232, 228, 214);</string>
                       </color>
                      </brush>
                     </colorrole>
-                    <colorrole role="PlaceholderText">
-                     <brush brushstyle="SolidPattern">
-                      <color alpha="128">
-                       <red>232</red>
-                       <green>228</green>
-                       <blue>214</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
                    </inactive>
                    <disabled>
                     <colorrole role="WindowText">
@@ -2056,15 +1958,6 @@ color: rgb(232, 228, 214);</string>
                        <red>23</red>
                        <green>23</green>
                        <blue>23</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                    <colorrole role="PlaceholderText">
-                     <brush brushstyle="SolidPattern">
-                      <color alpha="128">
-                       <red>232</red>
-                       <green>228</green>
-                       <blue>214</blue>
                       </color>
                      </brush>
                     </colorrole>
@@ -2157,15 +2050,6 @@ color: rgb(232, 228, 214);</string>
                       </color>
                      </brush>
                     </colorrole>
-                    <colorrole role="PlaceholderText">
-                     <brush brushstyle="SolidPattern">
-                      <color alpha="128">
-                       <red>232</red>
-                       <green>228</green>
-                       <blue>214</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
                    </active>
                    <inactive>
                     <colorrole role="WindowText">
@@ -2222,15 +2106,6 @@ color: rgb(232, 228, 214);</string>
                       </color>
                      </brush>
                     </colorrole>
-                    <colorrole role="PlaceholderText">
-                     <brush brushstyle="SolidPattern">
-                      <color alpha="128">
-                       <red>232</red>
-                       <green>228</green>
-                       <blue>214</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
                    </inactive>
                    <disabled>
                     <colorrole role="WindowText">
@@ -2284,15 +2159,6 @@ color: rgb(232, 228, 214);</string>
                        <red>23</red>
                        <green>23</green>
                        <blue>23</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                    <colorrole role="PlaceholderText">
-                     <brush brushstyle="SolidPattern">
-                      <color alpha="128">
-                       <red>232</red>
-                       <green>228</green>
-                       <blue>214</blue>
                       </color>
                      </brush>
                     </colorrole>
@@ -2435,15 +2301,6 @@ color: rgb(232, 228, 214);</string>
                       </color>
                      </brush>
                     </colorrole>
-                    <colorrole role="PlaceholderText">
-                     <brush brushstyle="SolidPattern">
-                      <color alpha="128">
-                       <red>232</red>
-                       <green>228</green>
-                       <blue>214</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
                    </active>
                    <inactive>
                     <colorrole role="WindowText">
@@ -2500,15 +2357,6 @@ color: rgb(232, 228, 214);</string>
                       </color>
                      </brush>
                     </colorrole>
-                    <colorrole role="PlaceholderText">
-                     <brush brushstyle="SolidPattern">
-                      <color alpha="128">
-                       <red>232</red>
-                       <green>228</green>
-                       <blue>214</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
                    </inactive>
                    <disabled>
                     <colorrole role="WindowText">
@@ -2562,15 +2410,6 @@ color: rgb(232, 228, 214);</string>
                        <red>23</red>
                        <green>23</green>
                        <blue>23</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                    <colorrole role="PlaceholderText">
-                     <brush brushstyle="SolidPattern">
-                      <color alpha="128">
-                       <red>232</red>
-                       <green>228</green>
-                       <blue>214</blue>
                       </color>
                      </brush>
                     </colorrole>
@@ -2713,15 +2552,6 @@ color: rgb(232, 228, 214);</string>
                       </color>
                      </brush>
                     </colorrole>
-                    <colorrole role="PlaceholderText">
-                     <brush brushstyle="SolidPattern">
-                      <color alpha="128">
-                       <red>232</red>
-                       <green>228</green>
-                       <blue>214</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
                    </active>
                    <inactive>
                     <colorrole role="WindowText">
@@ -2778,15 +2608,6 @@ color: rgb(232, 228, 214);</string>
                       </color>
                      </brush>
                     </colorrole>
-                    <colorrole role="PlaceholderText">
-                     <brush brushstyle="SolidPattern">
-                      <color alpha="128">
-                       <red>232</red>
-                       <green>228</green>
-                       <blue>214</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
                    </inactive>
                    <disabled>
                     <colorrole role="WindowText">
@@ -2840,15 +2661,6 @@ color: rgb(232, 228, 214);</string>
                        <red>23</red>
                        <green>23</green>
                        <blue>23</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                    <colorrole role="PlaceholderText">
-                     <brush brushstyle="SolidPattern">
-                      <color alpha="128">
-                       <red>232</red>
-                       <green>228</green>
-                       <blue>214</blue>
                       </color>
                      </brush>
                     </colorrole>
@@ -3018,15 +2830,6 @@ background-color: #171717;</string>
                 </color>
                </brush>
               </colorrole>
-              <colorrole role="PlaceholderText">
-               <brush brushstyle="SolidPattern">
-                <color alpha="128">
-                 <red>232</red>
-                 <green>228</green>
-                 <blue>214</blue>
-                </color>
-               </brush>
-              </colorrole>
              </active>
              <inactive>
               <colorrole role="WindowText">
@@ -3083,15 +2886,6 @@ background-color: #171717;</string>
                 </color>
                </brush>
               </colorrole>
-              <colorrole role="PlaceholderText">
-               <brush brushstyle="SolidPattern">
-                <color alpha="128">
-                 <red>232</red>
-                 <green>228</green>
-                 <blue>214</blue>
-                </color>
-               </brush>
-              </colorrole>
              </inactive>
              <disabled>
               <colorrole role="WindowText">
@@ -3145,15 +2939,6 @@ background-color: #171717;</string>
                  <red>23</red>
                  <green>23</green>
                  <blue>23</blue>
-                </color>
-               </brush>
-              </colorrole>
-              <colorrole role="PlaceholderText">
-               <brush brushstyle="SolidPattern">
-                <color alpha="128">
-                 <red>232</red>
-                 <green>228</green>
-                 <blue>214</blue>
                 </color>
                </brush>
               </colorrole>
@@ -3270,7 +3055,7 @@ background-color: #171717;</string>
              <string>Run</string>
             </property>
             <property name="icon">
-             <iconset resource="../Resources.qrc">
+             <iconset>
               <normaloff>:/new/rec/Resources/run.png</normaloff>:/new/rec/Resources/run.png</iconset>
             </property>
            </widget>
@@ -3290,7 +3075,7 @@ background-color: #171717;</string>
              <string>Reset</string>
             </property>
             <property name="icon">
-             <iconset resource="../Resources.qrc">
+             <iconset>
               <normaloff>:/new/rec/Resources/reset.png</normaloff>:/new/rec/Resources/reset.png</iconset>
             </property>
            </widget>
@@ -4781,7 +4566,7 @@ view.
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="../Resources.qrc">
+    <iconset>
      <normaloff>:/new/rec/Resources/save.png</normaloff>:/new/rec/Resources/save.png</iconset>
    </property>
    <property name="text">
@@ -4790,7 +4575,7 @@ view.
   </action>
   <action name="actionSaveAsPng">
    <property name="icon">
-    <iconset resource="../Resources.qrc">
+    <iconset>
      <normaloff>:/new/rec/Resources/saveaspng.png</normaloff>:/new/rec/Resources/saveaspng.png</iconset>
    </property>
    <property name="text">
@@ -4799,7 +4584,7 @@ view.
   </action>
   <action name="actionOpen">
    <property name="icon">
-    <iconset resource="../Resources.qrc">
+    <iconset>
      <normaloff>:/new/rec/Resources/open.png</normaloff>:/new/rec/Resources/open.png</iconset>
    </property>
    <property name="text">
@@ -4808,7 +4593,7 @@ view.
   </action>
   <action name="actionClose">
    <property name="icon">
-    <iconset resource="../Resources.qrc">
+    <iconset>
      <normaloff>:/new/rec/Resources/close.png</normaloff>:/new/rec/Resources/close.png</iconset>
    </property>
    <property name="text">
@@ -4817,7 +4602,7 @@ view.
   </action>
   <action name="actionSaveAsJpg">
    <property name="icon">
-    <iconset resource="../Resources.qrc">
+    <iconset>
      <normaloff>:/new/rec/Resources/saveasjpg.png</normaloff>:/new/rec/Resources/saveasjpg.png</iconset>
    </property>
    <property name="text">
@@ -4831,7 +4616,7 @@ view.
   </action>
   <action name="actionSaveAsJson">
    <property name="icon">
-    <iconset resource="../Resources.qrc">
+    <iconset>
      <normaloff>:/new/rec/Resources/toJson.png</normaloff>:/new/rec/Resources/toJson.png</iconset>
    </property>
    <property name="text">
@@ -4840,7 +4625,7 @@ view.
   </action>
   <action name="actionLoadFromJson">
    <property name="icon">
-    <iconset resource="../Resources.qrc">
+    <iconset>
      <normaloff>:/new/rec/Resources/fromJson.png</normaloff>:/new/rec/Resources/fromJson.png</iconset>
    </property>
    <property name="text">
@@ -4849,7 +4634,7 @@ view.
   </action>
   <action name="actionSaveAsJson_2">
    <property name="icon">
-    <iconset resource="../Resources.qrc">
+    <iconset>
      <normaloff>:/new/rec/Resources/toJson.png</normaloff>:/new/rec/Resources/toJson.png</iconset>
    </property>
    <property name="text">
@@ -4861,7 +4646,7 @@ view.
   </action>
   <action name="actionLoadFromJson_2">
    <property name="icon">
-    <iconset resource="../Resources.qrc">
+    <iconset>
      <normaloff>:/new/rec/Resources/fromJson.png</normaloff>:/new/rec/Resources/fromJson.png</iconset>
    </property>
    <property name="text">
@@ -4876,8 +4661,6 @@ view.
    <header location="global">Headers/mytextedit.h</header>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="../Resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

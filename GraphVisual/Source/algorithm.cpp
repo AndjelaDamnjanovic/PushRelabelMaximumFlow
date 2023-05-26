@@ -145,7 +145,7 @@ std::map<Node*, Node*> Algorithm::MST (Graph &graph){
     std::map<Node*, bool> visited;
     std::map<Node*, int> minEdge;
 
-    std::priority_queue<std::pair<int, Node*>, std::vector<std::pair<int, Node*>>, std::greater<std::pair<int, Node*>>> minDist;
+    std::priority_queue<std::pair<int, Node*>, std::vector<std::pair<int, Node*>>, std::greater<>> minDist;
 
     int min = std::numeric_limits<int>::max();
     Node* begin;

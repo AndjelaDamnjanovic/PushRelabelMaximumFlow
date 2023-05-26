@@ -25,7 +25,7 @@
 #include <QMessageBox>
 #include <iostream>
 #include <QShortcut>
-#include <math.h>
+#include <cmath>
 #include <QTime>
 #include <QIcon>
 #include <sstream>
@@ -465,8 +465,8 @@ void GraphWindow::setDirection(QString direction){
 }
 
 void GraphWindow::invalidateRegion(){
-    QGraphicsView obj=this;
-    obj.invalidateScene(this->ui->graphicsView->sceneRect(), QGraphicsScene::SceneLayers());
+//    QGraphicsView obj=this;
+//    obj.invalidateScene(this->ui->graphicsView->sceneRect(), QGraphicsScene::SceneLayers());
     QCoreApplication::processEvents();
 }
 
@@ -832,9 +832,9 @@ void GraphWindow::algorithm() {
         std::map<Node*, Node*> parent = a->MST(*m_graph);
         QList<Edge*> result;
 
-        for (std::map<Node*, Node*>::iterator it=parent.begin(); it!=parent.end(); ++it){
-            if(it->second != nullptr)
-                result.append(m_graph->getEdge(it->second, it->first));
+        for (auto & it : parent){
+            if(it.second != nullptr)
+                result.append(m_graph->getEdge(it.second, it.first));
 
         }
 
@@ -975,9 +975,9 @@ void GraphWindow::on_pbBeautify_clicked()
                 normalizedVector = nodesList[i]->normalize(nodesList[j]);
                 repulsiveForce += (-C*K*K / pointsDistance) * normalizedVector * 0.2 * directionCorrection;
 
-                for(int k = 0; k < neighourList.size(); k++) {
+                for(auto & k : neighourList) {
 
-                    if(nodesList[j]->getNode() == neighourList[k]) {
+                    if(nodesList[j]->getNode() == k) {
                         attractionForce += pow(pointsDistance, 2) / K  * normalizedVector * 0.001 * directionCorrection;
                         break;
                     }
