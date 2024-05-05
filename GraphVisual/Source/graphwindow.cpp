@@ -522,7 +522,7 @@ void GraphWindow::fromVariant(const QVariant &variant)
             AddNewEdge();
         }
     }
-    //on_pbBeautify_clicked();
+    on_pbBeautify_clicked();
 }
 
 QVariant GraphWindow::toVariant() const
@@ -622,7 +622,7 @@ void GraphWindow::readFromFile(std::ifstream *openFile){
     }
     openFile->close();
     emit this->ui->pbSave->clicked();
-    //on_pbBeautify_clicked();
+    on_pbBeautify_clicked();
 }
 
 void GraphWindow::on_actionOpen_triggered(){
