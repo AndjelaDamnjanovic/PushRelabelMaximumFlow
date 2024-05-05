@@ -10,6 +10,8 @@ Node::Node(){
     this->m_deg=0;
     this->m_name="";
     this->m_position=QPointF(0,0);
+    this->m_height=0;
+    this->m_excessFlow=0;
 }
 
 Node::Node(const Node *other) {
@@ -18,6 +20,8 @@ Node::Node(const Node *other) {
     m_deg = other->m_deg;
     m_name = other->m_name;
     m_position = other->m_position;
+    m_height = other->m_height;
+    m_excessFlow = other->m_excessFlow;
 }
 
 Node::Node(std::string name){
@@ -26,6 +30,8 @@ Node::Node(std::string name){
     this->m_deg=0;
     this->m_name=name;
     this->m_position=QPointF(0,0);
+    this->m_height=0;
+    this->m_excessFlow=0;
 }
 
 Node::Node(std::string name, QPointF position){
@@ -34,6 +40,8 @@ Node::Node(std::string name, QPointF position){
     this->m_deg=0;
     this->m_name=name;
     this->m_position=position;
+    this->m_height=0;
+    this->m_excessFlow=0;
 }
 
 Node::~Node() {
@@ -60,6 +68,16 @@ QPointF Node::position() const{
 
 std::string Node::name() const{
     return m_name;
+}
+
+int Node::excessFlow() const
+{
+    return m_excessFlow;
+}
+
+int Node::height() const
+{
+    return m_height;
 }
 
 void Node::setPosition(const QPointF &position){

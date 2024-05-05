@@ -47,6 +47,7 @@ class GraphTable : public QGraphicsScene {
   void colorNodesDijkstra(QList<Node*> path,
                           QList<Node*> visit,
                           QList<Edge*> edges);
+  void colorPushRelabel(QList<Edge*>edges, QList<int> flows);
   void colorEdges(QList<Edge*> result);
   void reset();
   void colorNodesSet(QSet<Node*> result);

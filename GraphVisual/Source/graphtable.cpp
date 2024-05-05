@@ -280,6 +280,19 @@ void GraphTable::colorNodesDijkstra(QList<Node*> path, QList<Node*> visit, QList
     }
 }
 
+void GraphTable::colorPushRelabel(QList<Edge *> edges, QList<int> flows)
+{
+    reset();
+    for(auto e : edges){
+        GraphicEdge* edge = getGraphicEdge(e);
+        edge->setPen(QPen(Qt::red), true);
+        Redraw();
+        delay();
+        edge->setPen(QPen(GraphicEdge::m_color), true);
+        Redraw();
+    }
+}
+
 void GraphTable::colorEdges(QList<Edge*> result) {
     reset();
     for(auto e : result){

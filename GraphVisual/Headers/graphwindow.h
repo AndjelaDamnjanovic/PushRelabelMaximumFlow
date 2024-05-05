@@ -40,6 +40,10 @@ class GraphWindow : public QMainWindow {
                                            std::ifstream* openFile);
   void readFromFile(std::ifstream* openFile);
   void saveInfoIntoFile(std::ofstream* saveFile);
+  void initializePreflow(Node* source);
+  void makeResidualGraph(Node* source);
+  bool hasMultipleSources();
+  bool hasMultipleSinks();
 
  signals:
   void AddedNewNode(GraphicNode*);
@@ -55,6 +59,7 @@ class GraphWindow : public QMainWindow {
   void colorMST(QList<Edge*>, bool x);
   void colorBridges(QList<Edge*>, bool x);
   void colorDijkstra(QList<Node*>, QList<Node*>, QList<Edge*>, bool x);
+  void colorGenericPushRelabel(QList<Edge*>, QList<int>, bool x);
   void colorEulerCycle(QList<Edge*>, bool x);
 
  private slots:

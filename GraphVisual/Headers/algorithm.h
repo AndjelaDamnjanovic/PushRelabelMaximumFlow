@@ -45,6 +45,26 @@ class Algorithm {
   QList<std::string> Hierholzer(Graph graph);
   bool hasEulerianCircuit(Graph& graph);
   QList<std::string> getEulerianCircuit(Graph graph);
+  Node* canPush(Graph& graph, Node* node);
+  void push(Graph& graph, Node* first, Node* second, QList<int>& flows);
+  void relabel(Graph& graph, Node* node);
+  void relabelCurrentArc(Graph& graph, Node* node, QList<Node*> activeNodes);
+  void relabelFIFO(Graph& graph, Node* node, QList<Node*> activeNodes);
+  int genericPushRelabel(Graph& graph,
+                         Node* source,
+                         Node* sink,
+                         QList<QPair<Node*, Node*>>& edges,
+                         QList<int>& flows);
+  int currentArcPushRelabel(Graph& graph,
+                            Node* source,
+                            Node* sink,
+                            QList<QPair<Node*, Node*>>& edges,
+                            QList<int>& flows);
+  int FIFOPushRelabel(Graph& graph,
+                            Node* source,
+                            Node* sink,
+                            QList<QPair<Node*, Node*>>& edges,
+                            QList<int>& flows);
 };
 
 #endif  // ALGORITHM_H

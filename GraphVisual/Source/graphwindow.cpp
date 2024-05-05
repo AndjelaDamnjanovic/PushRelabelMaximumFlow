@@ -30,6 +30,7 @@
 #include <QIcon>
 #include <sstream>
 #include <unistd.h>
+#include<cstdlib>
 
 //#include "ui_popup.h"
 
@@ -81,6 +82,7 @@ GraphWindow::GraphWindow(QWidget *parent)
     connect(this, &GraphWindow::colorBFS, dynamic_cast<GraphTable *>(m_GraphTable), &GraphTable::colorNodes);
     connect(this, &GraphWindow::colorMST, dynamic_cast<GraphTable *>(m_GraphTable), &GraphTable::colorEdges);
     connect(this, &GraphWindow::colorDijkstra, dynamic_cast<GraphTable *>(m_GraphTable), &GraphTable::colorNodesDijkstra);
+    connect(this, &GraphWindow::colorGenericPushRelabel, dynamic_cast<GraphTable *>(m_GraphTable), &GraphTable::colorPushRelabel);
     connect(this, &GraphWindow::colorArticulation, dynamic_cast<GraphTable *>(m_GraphTable), &GraphTable::colorNodesSet);
     connect(this, &GraphWindow::colorBridges, dynamic_cast<GraphTable *>(m_GraphTable), &GraphTable::colorEdges);
     connect(this, &GraphWindow::colorEulerCycle, dynamic_cast<GraphTable *>(m_GraphTable), &GraphTable::colorEdges);
@@ -147,7 +149,8 @@ void GraphWindow::SaveAsPic(const QString& m_ext){
 }
 
 void GraphWindow::AddNewEdge() {
-    if(m_graph->nodeSet().size() >= 14){
+       // ovde pomerena granica
+    if(m_graph->nodeSet().size() >= 105){
         warning("You have reached the maximum number of nodes allowed");
         ui->teNode1->clear();
         ui->teNode2->clear();
@@ -348,6 +351,9 @@ void GraphWindow::graphDirected() {
             shouldPopUpUndir = true;
             ui->pbMST->setDisabled(true);
             ui->pbArticulation->setDisabled(true);
+            ui->pbPushRelabel->setDisabled(false);
+            ui->pbCurrentArc->setDisabled(false);
+            ui->pbFIFO->setDisabled(false);
     }else if(shouldPopUpDir){
         switch(QMessageBox::question(this, "Error",
                 "<FONT COLOR='#171717'>Current progress will be deleted if you change to directed graph and some algorithms only work on undirected graphs. Click yes to continue</FONT>",
@@ -386,6 +392,9 @@ void GraphWindow::graphUndirected() {
     if(m_graph->nodeSet().empty()){
             ui->pbMST->setDisabled(false);
             ui->pbArticulation->setDisabled(false);
+            ui->pbCurrentArc->setDisabled(true);
+            ui->pbPushRelabel->setDisabled(true);
+            ui->pbFIFO->setDisabled(true);
 
             emit changeToUndir();
             ui->pbUndirected->setEnabled(false);
@@ -513,7 +522,7 @@ void GraphWindow::fromVariant(const QVariant &variant)
             AddNewEdge();
         }
     }
-    on_pbBeautify_clicked();
+    //on_pbBeautify_clicked();
 }
 
 QVariant GraphWindow::toVariant() const
@@ -613,7 +622,7 @@ void GraphWindow::readFromFile(std::ifstream *openFile){
     }
     openFile->close();
     emit this->ui->pbSave->clicked();
-    on_pbBeautify_clicked();
+    //on_pbBeautify_clicked();
 }
 
 void GraphWindow::on_actionOpen_triggered(){
@@ -654,6 +663,43 @@ void GraphWindow::on_actionSaveAsJson_triggered(){
         }
     }
 }
+
+void GraphWindow::initializePreflow(Node* source)
+{
+    int numOfNodes = m_graph->countNodes();
+    source->setHeight(numOfNodes);
+    QList<Node*> sourceNeighbours = source->neighbours();
+    for(const auto &neighbour : sourceNeighbours){
+        Edge* edge = m_graph->getEdge(source, neighbour);
+
+        Edge* residualEdge = m_graph->getEdge(neighbour, source);
+        residualEdge->setFlow(-1*edge->weight());
+
+        edge->setFlow(edge->weight());
+        neighbour->setExcessFlow(edge->weight());
+
+        int sourceExcess = source->excessFlow();
+        source->setExcessFlow(sourceExcess + residualEdge->flow());
+    }
+}
+
+
+void GraphWindow::makeResidualGraph(Node* source)
+{
+    QList<Node*> neighbours = source->neighbours();
+    for(const auto& neighbour: neighbours){
+        Edge* edge = m_graph->getEdge(source, neighbour);
+        int weight = edge->weight();
+        bool belongsToResidualGraph = !edge->belongsToResidualGraph();
+
+        enterValue(neighbour->name(), source->name(), std::to_string(weight));
+        invalidateRegion();
+        AddNewEdge();
+        Edge* newEdge = m_graph->getEdge(neighbour, source);
+        newEdge->setBelongsToResidual(belongsToResidualGraph);
+    }
+}
+
 
 void GraphWindow::saveInfoIntoFile(std::ofstream *saveFile){
     std::map<std::string, int> graphInfo;
@@ -931,7 +977,247 @@ void GraphWindow::algorithm() {
 
         QWidget::setEnabled(true);
     }
+    else if(ui->pbPushRelabel->isChecked()){
+        Node* source = nullptr;
+        Node* sink =nullptr;
+
+        auto p = new Popup();
+
+        // forcing the user to enter correct node names
+        while(source == nullptr){
+            if(p->exec() == QDialog::Accepted){
+                QString nodeName = p->getNodeName();
+                source = m_graph->getNode(nodeName.toStdString());
+                if(source == nullptr)
+                    warning("Node with that name does not exist");
+
+                // if the in degree of the node is not 0, the node cannot be labeled as source
+                if(source->inDeg()!=0){
+                    source = nullptr;
+                    warning("In degree of the source node must be 0");
+                }
+            }
+            else{
+                delete a;
+                return;
+            }
+        }
+
+        while(sink == nullptr){
+            if(p->exec() == QDialog::Accepted){
+                QString nodeName = p->getNodeName();
+                sink = m_graph->getNode(nodeName.toStdString());
+                if(sink == nullptr)
+                    warning("Node with that name does not exist");
+
+                // if the out degree of the node is not 0, the node cannot be labeled as sink
+                if(sink->outDeg()!=0){
+                    sink = nullptr;
+                    warning("Out degree of the sink node must be 0");
+                }
+            }
+            else {
+                delete a;
+                return;
+            }
+        }
+        QWidget::setEnabled(false);
+
+        if(hasMultipleSources() || hasMultipleSinks()){
+            QMessageBox::information(this, "Finished", "<FONT COLOR='#171717'>The graph is not a transportation network</FONT>");
+        }
+        else{
+            QList<QPair<Node*, Node*>> edges1;
+            QList<int> flows;
+
+            makeResidualGraph(source);
+            initializePreflow(source);
+
+            QElapsedTimer timer;
+
+            timer.start();
+            int result = a->genericPushRelabel(*m_graph, source, sink, edges1, flows);
+            qDebug() << "The generic push-relabel maximum flow algorithm took" << timer.nsecsElapsed() << "nanoseconds";
+
+            QList<Edge*> edges2;
+            for(auto p : edges1){
+                edges2.append(m_graph->getEdge(p.first, p.second));
+            }
+
+            emit colorGenericPushRelabel(edges2, flows, true);
+            QMessageBox::information(this, "Finished", "<FONT COLOR='#171717'>Algorithm is finished. Result: "+QString::fromStdString(std::to_string(result))+"</FONT>");
+        }
+        QWidget::setEnabled(true);
+    }else if(ui->pbCurrentArc->isChecked()){
+        Node* source = nullptr;
+        Node* sink =nullptr;
+
+        auto p = new Popup();
+
+        // forcing the user to enter correct node names
+        while(source == nullptr){
+            if(p->exec() == QDialog::Accepted){
+                QString nodeName = p->getNodeName();
+                source = m_graph->getNode(nodeName.toStdString());
+                if(source == nullptr)
+                    warning("Node with that name does not exist");
+
+                // if the in degree of the node is not 0, the node cannot be labeled as source
+                if(source->inDeg()!=0){
+                    source = nullptr;
+                    warning("In degree of the source node must be 0");
+                }
+            }
+            else{
+                delete a;
+                return;
+            }
+        }
+
+        while(sink == nullptr){
+            if(p->exec() == QDialog::Accepted){
+                QString nodeName = p->getNodeName();
+                sink = m_graph->getNode(nodeName.toStdString());
+                if(sink == nullptr)
+                    warning("Node with that name does not exist");
+
+                // if the out degree of the node is not 0, the node cannot be labeled as sink
+                if(sink->outDeg()!=0){
+                    sink = nullptr;
+                    warning("Out degree of the sink node must be 0");
+                }
+            }
+            else {
+                delete a;
+                return;
+            }
+        }
+        QWidget::setEnabled(false);
+
+        if(hasMultipleSources() || hasMultipleSinks()){
+            QMessageBox::information(this, "Finished", "<FONT COLOR='#171717'>The graph is not a transportation network</FONT>");
+        }
+        else{ 
+            QList<int> flows;
+            QList<QPair<Node*, Node*>> edges1;
+
+            makeResidualGraph(source);
+            initializePreflow(source);
+
+            QElapsedTimer timer;
+
+            timer.start();
+            int result = a->currentArcPushRelabel(*m_graph, source, sink, edges1, flows);
+            qDebug() << "The current-arc push-relabel maximum flow algorithm took" << timer.nsecsElapsed() << "nanoseconds";
+
+            QList<Edge*> edges2;
+            for(auto p : edges1){
+                edges2.append(m_graph->getEdge(p.first, p.second));
+            }
+
+            emit colorGenericPushRelabel(edges2, flows,  true);
+            QMessageBox::information(this, "Finished", "<FONT COLOR='#171717'>Algorithm is finished. Result: "+QString::fromStdString(std::to_string(result))+"</FONT>");
+        }
+        QWidget::setEnabled(true);
+    }else if(ui->pbFIFO->isChecked()){
+        Node* source = nullptr;
+        Node* sink =nullptr;
+
+        auto p = new Popup();
+
+        // forcing the user to enter correct node names
+        while(source == nullptr){
+            if(p->exec() == QDialog::Accepted){
+                QString nodeName = p->getNodeName();
+                source = m_graph->getNode(nodeName.toStdString());
+                if(source == nullptr)
+                    warning("Node with that name does not exist");
+
+                // if the in degree of the node is not 0, the node cannot be labeled as source
+                if(source->inDeg()!=0){
+                    source = nullptr;
+                    warning("In degree of the source node must be 0");
+                }
+            }
+            else{
+                delete a;
+                return;
+            }
+        }
+
+        while(sink == nullptr){
+            if(p->exec() == QDialog::Accepted){
+                QString nodeName = p->getNodeName();
+                sink = m_graph->getNode(nodeName.toStdString());
+                if(sink == nullptr)
+                    warning("Node with that name does not exist");
+
+                // if the out degree of the node is not 0, the node cannot be labeled as sink
+                if(sink->outDeg()!=0){
+                    sink = nullptr;
+                    warning("Out degree of the sink node must be 0");
+                }
+            }
+            else {
+                delete a;
+                return;
+            }
+        }
+        QWidget::setEnabled(false);
+
+        if(hasMultipleSources() || hasMultipleSinks()){
+            QMessageBox::information(this, "Finished", "<FONT COLOR='#171717'>The graph is not a transportation network</FONT>");
+        }
+        else{
+            QList<int> flows;
+            QList<QPair<Node*, Node*>> edges1;
+
+            makeResidualGraph(source);
+            initializePreflow(source);
+
+            QElapsedTimer timer;
+
+            timer.start();
+            int result = a->FIFOPushRelabel(*m_graph, source, sink, edges1, flows);
+            qDebug() << "The FIFO push-relabel maximum flow algorithm took" << timer.nsecsElapsed() << "nanoseconds";
+
+            QList<Edge*> edges2;
+            for(auto p : edges1){
+                edges2.append(m_graph->getEdge(p.first, p.second));
+            }
+
+            emit colorGenericPushRelabel(edges2, flows, true);
+            QMessageBox::information(this, "Finished", "<FONT COLOR='#171717'>Algorithm is finished. Result: "+QString::fromStdString(std::to_string(result))+"</FONT>");
+        }
+        QWidget::setEnabled(true);
+    }
     delete a;
+}
+
+bool GraphWindow::hasMultipleSources()
+{
+    QList<Node*> nodes = m_graph->nodeSet();
+    int numOfSources = 0;
+    for(const auto& node:nodes){
+        if(node->inDeg() ==0){
+            numOfSources++;
+        }
+
+    }
+
+    return numOfSources > 1;
+}
+
+bool GraphWindow::hasMultipleSinks()
+{
+    QList<Node*> nodes = m_graph->nodeSet();
+    int numOfSinks = 0;
+    for(const auto& node:nodes){
+        if(node->outDeg() ==0)
+            numOfSinks++;
+    }
+
+    return numOfSinks > 1;
 }
 
 void GraphWindow::gravityDelay(){

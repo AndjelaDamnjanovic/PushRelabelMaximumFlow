@@ -6,6 +6,9 @@
 #include<QStack>
 #include<algorithm>
 #include<limits>
+#include<cassert>
+#include<limits>
+#include<string>
 
 QList<Node*> Algorithm::BFS (Node* current){
 
@@ -362,5 +365,215 @@ QList<std::string> Algorithm::getEulerianCircuit (Graph graph){
     return result;
 }
 
+Node *Algorithm::canPush(Graph &graph, Node *node)
+{
+    QList<Node*> neighbours = node->neighbours();
 
+    for(const auto& neighbour : neighbours){
+        Edge* edge = graph.getEdge(node, neighbour);
 
+        // if the flow is equal to the weight of an edge, additional flow cannot be pushed
+        if(edge->flow() == edge->weight())
+            continue;
+
+        // the push can only be performed if the height of the neighbouring node is smaller than the height of initial node
+        if(neighbour->height() < node->height() && !edge->belongsToResidualGraph()){
+            return neighbour;
+        }
+
+    }
+    return nullptr;
+}
+
+void Algorithm::push(Graph& graph, Node *first, Node *second, QList<int>& flows)
+{
+    int height1 = first->height();
+    int height2 = second->height();
+    int excessFlow = first->excessFlow();
+
+    assert((( height1 == height2 + 1) && excessFlow > 0));
+    Edge* edge = graph.getEdge(first, second);
+    Edge* residualEdge = graph.getEdge(second, first);
+
+    if(residualEdge == nullptr){
+        graph.addEdge(second, first);
+        residualEdge = graph.getEdge(second, first);
+        residualEdge->setWeight(edge->weight());
+        residualEdge->setBelongsToResidual(true);
+    }
+    int delta = 0;
+    if(!edge->belongsToResidualGraph()){
+        delta = std::min(first->excessFlow(), edge->weight() - edge->flow());
+    }else{
+        delta = std::min(first->excessFlow(), edge->flow());
+    }
+
+    flows.append(delta);
+
+    int edgeFlow = edge->flow();
+    int residualEdgeFlow = residualEdge->flow();
+    int excessFlowFirst = first->excessFlow();
+    int excessFlowSecond = second->excessFlow();
+
+    edge->setFlow(edgeFlow + delta);
+    residualEdge->setFlow(residualEdgeFlow - delta);
+    first->setExcessFlow(excessFlowFirst - delta);
+    second->setExcessFlow(excessFlowSecond + delta);
+}
+
+void Algorithm::relabel(Graph &graph, Node *node)
+{
+    QList<Node*> neighbours = node->neighbours();
+    int minHeight = INT_MAX;
+    for(const auto& neighbour : neighbours){
+        Edge* edge = graph.getEdge(node, neighbour);
+        if(neighbour->height() < minHeight && (edge->weight() - edge->flow() > 0)){
+            minHeight = neighbour->height();
+        }
+    }
+    //elimination of excess flow
+    if(minHeight + 1 == node->height()){
+        node->setExcessFlow(0);
+    }
+
+    node->setHeight(minHeight + 1);
+}
+
+void Algorithm::relabelCurrentArc(Graph &graph, Node *node, QList<Node*> activeNodes)
+{
+    QList<Node*> neighbours = node->neighbours();
+    int minHeight = INT_MAX;
+    for(const auto& neighbour : neighbours){
+        Edge* edge = graph.getEdge(node, neighbour);
+        if(neighbour->height() < minHeight && (edge->weight() - edge->flow() > 0)){
+            minHeight = neighbour->height();
+        }
+    }
+    //elimination of excess flow
+    if(minHeight + 1 == node->height()){
+        node->setExcessFlow(0);
+    }
+
+    node->setHeight(minHeight + 1);
+    activeNodes.push_front(node);
+}
+
+void Algorithm::relabelFIFO(Graph &graph, Node *node, QList<Node *> activeNodes)
+{
+    QList<Node*> neighbours = node->neighbours();
+    int minHeight = INT_MAX;
+    for(const auto& neighbour : neighbours){
+        Edge* edge = graph.getEdge(node, neighbour);
+        if(neighbour->height() < minHeight && (edge->weight() - edge->flow() > 0)){
+            minHeight = neighbour->height();
+        }
+    }
+    //elimination of excess flow
+    if(minHeight + 1 == node->height()){
+        node->setExcessFlow(0);
+    }
+
+    node->setHeight(minHeight + 1);
+    activeNodes.removeFirst();
+}
+
+int Algorithm::genericPushRelabel(Graph &graph, Node *source, Node *sink, QList<QPair<Node *, Node *> > &edges, QList<int>& flows)
+{
+    QList<Node*> activeNodes;
+    QList<Node*> sourceNeighbours = source->neighbours();
+
+    for(const auto& neighbour : sourceNeighbours){
+        activeNodes.append(neighbour);
+        edges.append(qMakePair(source, neighbour));
+        Edge* edge = graph.getEdge(source, neighbour);
+        flows.append(edge->weight());
+    }
+
+    while(!activeNodes.isEmpty()){
+        Node* activeNode = activeNodes.first();
+
+        while(activeNode->excessFlow() > 0){
+            Node* destination = canPush(graph, activeNode);
+
+            if(destination != nullptr){
+                edges.append(qMakePair(activeNode, destination));
+                push(graph, activeNode, destination, flows);
+                if(destination != source && destination != sink){
+                    activeNodes.append(destination);
+                }
+            }else{
+                relabel(graph, activeNode);
+            }
+        }
+        activeNodes.removeFirst();
+    }
+    return sink->excessFlow();
+}
+
+int Algorithm::currentArcPushRelabel(Graph &graph, Node *source, Node *sink, QList<QPair<Node *, Node *> > &edges, QList<int>& flows)
+{
+    QList<Node*> activeNodes;
+    QList<Node*> sourceNeighbours = source->neighbours();
+
+    for(const auto& neighbour : sourceNeighbours){
+        activeNodes.append(neighbour);
+        edges.append(qMakePair(source, neighbour));
+        Edge* edge = graph.getEdge(source, neighbour);
+        flows.append(edge->weight());
+    }
+
+    while(!activeNodes.isEmpty()){
+        Node* activeNode = activeNodes.first();
+
+        while(activeNode->excessFlow() > 0){
+            Node* destination = canPush(graph, activeNode);
+
+            if(destination != nullptr){
+                edges.append(qMakePair(activeNode, destination));
+                push(graph, activeNode, destination, flows);
+                if(destination != source && destination != sink){
+                    activeNodes.append(destination);
+                }
+            }else{
+                relabelCurrentArc(graph, activeNode, activeNodes);
+            }
+        }
+        activeNodes.removeFirst();
+    }
+
+    return sink->excessFlow();
+}
+
+int Algorithm::FIFOPushRelabel(Graph &graph, Node *source, Node *sink, QList<QPair<Node *, Node *> > &edges, QList<int>& flows)
+{
+    QList<Node*> activeNodes;
+    QList<Node*> sourceNeighbours = source->neighbours();
+
+    for(const auto& neighbour : sourceNeighbours){
+        activeNodes.append(neighbour);
+        edges.append(qMakePair(source, neighbour));
+        Edge* edge = graph.getEdge(source, neighbour);
+        flows.append(edge->weight());
+    }
+
+    while(!activeNodes.isEmpty()){
+        Node* activeNode = activeNodes.first();
+
+        while(activeNode->excessFlow() > 0){
+            Node* destination = canPush(graph, activeNode);
+
+            if(destination != nullptr){
+                edges.append(qMakePair(activeNode, destination));
+                push(graph, activeNode, destination, flows);
+                if(destination != source && destination != sink){
+                    activeNodes.append(destination);
+                }
+            }else{
+                relabelFIFO(graph, activeNode, activeNodes);
+            }
+        }
+        activeNodes.removeFirst();
+    }
+
+    return sink->excessFlow();
+}

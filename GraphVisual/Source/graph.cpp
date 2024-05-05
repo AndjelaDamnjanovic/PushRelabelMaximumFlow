@@ -31,7 +31,7 @@ Graph::Graph(Graph &other) {
 
         std::pair<Node*, Node*> newEdge(newNode1, newNode2);
 
-        auto *e = new Edge(newEdge, edge->m_weight);
+        auto *e = new Edge(newEdge, edge->m_weight, 0, false);
         m_edges.append(e);
     }
 
@@ -233,7 +233,7 @@ bool Graph::addEdge(Node *u, Node *v, int w) {
         return false;
     }
 
-    m_edges.append(new Edge(std::make_pair(u,v), w));
+    m_edges.append(new Edge(std::make_pair(u,v), w, 0, false));
 
     if (m_directed) {
         u->incOutDeg();
@@ -360,6 +360,16 @@ void Graph::clearEdges() {
 
 QList<Edge*> Graph::edgeSet() {
     return m_edges;
+}
+
+QList<Edge *> Graph::residualEdges()
+{
+    QList<Edge*> residualEdges;
+    for(const auto& edge: m_edges){
+        if(edge->belongsToResidualGraph())
+            residualEdges.append(edge);
+    }
+    return residualEdges;
 }
 
 QList<Node*> Graph::nodeSet() {

@@ -20,9 +20,13 @@ class Node {
   unsigned deg() const;
   QPointF position() const;
   std::string name() const;
+  int excessFlow() const;
+  int height() const;
 
   // setters
   void setPosition(const QPointF& position);
+  void setExcessFlow(int n) { m_excessFlow = n; }
+  void setHeight(int n) {m_height = n;}
 
   // overriding operator == so we can compare the nodes by their name
   bool operator==(const Node& second) const;
@@ -39,6 +43,8 @@ class Node {
   unsigned m_deg;
   std::string m_name;
   QPointF m_position;
+  int m_height;
+  int m_excessFlow;
 
   QList<Node*> m_neighbours;
 

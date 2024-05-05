@@ -55,6 +55,7 @@ class Graph {
   void clearEdges();  // todelete? (crash-uje)
 
   QList<Edge*> edgeSet();
+  QList<Edge*> residualEdges();
   QList<Node*> nodeSet();
 
  protected:
