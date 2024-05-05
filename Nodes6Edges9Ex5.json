@@ -1,0 +1,54 @@
+{
+    "background": 7,
+    "direction": "directed",
+    "edgeColor": 8,
+    "edges": [
+        {
+            "node1": "0",
+            "node2": "1",
+            "weight": 16
+        },
+        {
+            "node1": "1",
+            "node2": "2",
+            "weight": 12
+        },
+        {
+            "node1": "2",
+            "node2": "3",
+            "weight": 20
+        },
+        {
+            "node1": "0",
+            "node2": "4",
+            "weight": 13
+        },
+        {
+            "node1": "4",
+            "node2": "5",
+            "weight": 14
+        },
+        {
+            "node1": "5",
+            "node2": "3",
+            "weight": 4
+        },
+        {
+            "node1": "4",
+            "node2": "1",
+            "weight": 4
+        },
+        {
+            "node1": "5",
+            "node2": "2",
+            "weight": 7
+        },
+        {
+            "node1": "2",
+            "node2": "4",
+            "weight": 9
+        }
+    ],
+    "hasEdges": true,
+    "nodeColor": 1
+}

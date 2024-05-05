@@ -1,0 +1,19 @@
+{
+    "background": 7,
+    "direction": "directed",
+    "edgeColor": 8,
+    "edges": [
+        {
+            "node1": "0",
+            "node2": "1",
+            "weight": 2
+        },
+        {
+            "node1": "1",
+            "node2": "2",
+            "weight": 3
+        }
+    ],
+    "hasEdges": true,
+    "nodeColor": 1
+}

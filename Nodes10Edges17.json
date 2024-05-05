@@ -1,0 +1,94 @@
+{
+    "background": 7,
+    "direction": "directed",
+    "edgeColor": 8,
+    "edges": [
+        {
+            "node1": "s",
+            "node2": "0",
+            "weight": 10
+        },
+        {
+            "node1": "s",
+            "node2": "1",
+            "weight": 5
+        },
+        {
+            "node1": "s",
+            "node2": "2",
+            "weight": 10
+        },
+        {
+            "node1": "0",
+            "node2": "3",
+            "weight": 10
+        },
+        {
+            "node1": "1",
+            "node2": "2",
+            "weight": 10
+        },
+        {
+            "node1": "2",
+            "node2": "5",
+            "weight": 15
+        },
+        {
+            "node1": "3",
+            "node2": "1",
+            "weight": 2
+        },
+        {
+            "node1": "3",
+            "node2": "6",
+            "weight": 15
+        },
+        {
+            "node1": "4",
+            "node2": "1",
+            "weight": 15
+        },
+        {
+            "node1": "4",
+            "node2": "3",
+            "weight": 3
+        },
+        {
+            "node1": "5",
+            "node2": "4",
+            "weight": 4
+        },
+        {
+            "node1": "5",
+            "node2": "8",
+            "weight": 10
+        },
+        {
+            "node1": "6",
+            "node2": "7",
+            "weight": 10
+        },
+        {
+            "node1": "7",
+            "node2": "4",
+            "weight": 10
+        },
+        {
+            "node1": "7",
+            "node2": "5",
+            "weight": 7
+        },
+        {
+            "node1": "6",
+            "node2": "t",
+            "weight": 15
+        },
+        {
+            "node1": "8",
+            "node2": "t",
+            "weight": 10
+        }
+    ],
+    "hasEdges": true,
+    "nodeColor": 1
+}
